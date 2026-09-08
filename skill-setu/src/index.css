@@ -1,0 +1,165 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Plus Jakarta Sans", "Inter", -apple-system, sans-serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --color-ink: #0e1a2e;
+  --color-ink-light: #1e2e45;
+  --color-sandstone: #b5502e;
+  --color-sandstone-dark: #8f3e22;
+  --color-parchment: #f8f6f0;
+  --color-parchment-dark: #eeeade;
+  --color-slate: #64748b;
+  --color-ochre: #d97706;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+section, [id] {
+  scroll-margin-top: 90px;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: #f8f6f0;
+  color: #0e1a2e;
+  overflow-x: hidden;
+}
+
+/* Keyframe Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.85; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.04); }
+}
+
+@keyframes shimmer {
+  100% { transform: translateX(100%); }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.animate-float {
+  animation: floatSlow 4s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+/* Card Hover Lift & Micro-Interactions */
+.hover-lift {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 32px -8px rgba(14, 26, 46, 0.1);
+}
+
+/* Liquid Glass Button Effect (Light Theme Harmonized) */
+.btn-liquid-glass {
+  background: linear-gradient(135deg, #b5502e 0%, #d97706 50%, #8f3e22 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+  box-shadow: 0 8px 20px -4px rgba(181, 80, 46, 0.3), inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.6);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-liquid-glass::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transition: left 0.6s ease;
+}
+
+.btn-liquid-glass:hover::before {
+  left: 100%;
+}
+
+.btn-liquid-glass:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px -4px rgba(181, 80, 46, 0.4), inset 0 2px 2px 0 rgba(255, 255, 255, 0.8);
+}
+
+.btn-liquid-glass:active {
+  transform: translateY(0);
+}
+
+/* Secondary Liquid Glass Button (Light Theme) */
+.btn-liquid-glass-light {
+  background: #ffffff;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid #cbd5e1;
+  color: #0e1a2e;
+  box-shadow: 0 4px 14px -2px rgba(14, 26, 46, 0.08), inset 0 1px 1px 0 rgba(255, 255, 255, 0.9);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-liquid-glass-light:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+  color: #b5502e;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -2px rgba(14, 26, 46, 0.12);
+}
+
+/* Glass Card styling */
+.glass-card {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 10px 30px -10px rgba(14, 26, 46, 0.06);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
