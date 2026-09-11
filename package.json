@@ -1,0 +1,10 @@
+{
+  "name": "skill-setu-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "cd skill-setu && npm install && npm run build",
+    "dev": "cd skill-setu && npm run dev",
+    "preview": "cd skill-setu && npm run preview"
+  }
+}

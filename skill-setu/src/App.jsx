@@ -8,6 +8,8 @@ import OnboardingQuiz from './pages/OnboardingQuiz';
 import LearnerDashboard from './pages/LearnerDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import QuizGenerator from './pages/QuizGenerator';
+import LearningHub from './pages/LearningHub';
+import CareerTwin from './pages/CareerTwin';
 import Footer from './components/Footer';
 import { api } from './services/api';
 
@@ -134,6 +136,29 @@ export default function App() {
         {/* Route 8: AI Quiz Generator */}
         {currentPath === '/quiz-generator' && (
           <QuizGenerator currentUser={currentUser} />
+        )}
+
+        {/* Route 9: Official Learning & Capability Hub & Virtual Labs */}
+        {(currentPath === '/learning-hub' || currentPath === '/virtual-labs') && (
+          currentUser ? (
+            <LearningHub
+              currentUser={currentUser}
+              onNavigateDashboard={() => navigate('/dashboard')}
+            />
+          ) : (
+            <LoginPage onLoginSuccess={handleLoginSuccess} />
+          )
+        )}
+
+        {/* Route 10: Digital Competency Twin - Career Simulation Sandbox */}
+        {currentPath === '/career-twin' && (
+          currentUser ? (
+            <CareerTwin
+              currentUser={currentUser}
+            />
+          ) : (
+            <LoginPage onLoginSuccess={handleLoginSuccess} />
+          )
         )}
       </main>
 

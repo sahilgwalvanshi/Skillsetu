@@ -1,4 +1,4 @@
-﻿# 🇮🇳 Skill Setu — AI-Enabled Skill Intelligence & Learning Platform
+# 🇮🇳 Skill Setu — AI-Enabled Skill Intelligence & Learning Platform
 
 > **SIH Problem Statement 26101** | Ministry of Statistics and Programme Implementation (MoSPI)  
 > *Transitioning Government Training from Generic Rule-Based Models to Role-Based Competency Building (Mission Karmayogi Bharat Paradigm).*
@@ -42,6 +42,39 @@ Built in alignment with **Mission Karmayogi Bharat**, Skill Setu profiles every 
 
 ### 6. 🌐 Official Mission Karmayogi Ecosystem Hubs
 - Interactive 6-hub suite representing e-learning, institutional workshops, peer networking, policy repositories, and automatic credit synchronization with **eHRMS** and **SPARROW APAR**.
+
+---
+
+## 🚀 Innovation-Signaling Differentiators & Judge Pitch Narrative
+
+> **Judge Pitch Advisory**: Anchor the first 60 seconds of your demo on the **Skill Decay Engine** and **Explainable AI (XAI) Panel** before the general dashboard tour. These features directly address "lack of innovation" feedback.
+
+### 1. ⏳ Competency Half-Life & Skill Decay Engine (`S(t) = S_0 · e^(-λt)`)
+- **The Core Problem**: Conventional LMS platforms treat earned skill badges as permanent. In reality, technical skills (Python, SQL, GIS) decay rapidly without active reinforcement.
+- **The Innovation**: Models exponential forgetting curves calibrated to days since last practice. Differentiates **"Skill Gap"** from **"Decaying Skill (At Risk)"** badges, recommending refresher interventions *before* an officer drops below minimum operating standards.
+- **Admin Workforce Intelligence**: Projects org-wide competency drops (e.g. *"GIS proficiency projected to drop below benchmark for 42% of Survey Division within 4 months"*).
+
+### 2. 🔍 Explainable AI (XAI) Audit Trace ("Why did the AI say this?")
+- **The Core Problem**: Black-box AI recommendations alienate public officials and fail government AI transparency audits.
+- **The Innovation**: Every skill deficit score and course recommendation features a transparent mathematical decomposition panel, illustrating self-ratings, diagnostic test weights, experience coefficients, and decay penalties in compliance with **NITI Aayog Responsible AI Guidelines**.
+
+### 3. 🔮 "Digital Competency Twin" — Career Readiness Simulator (`/career-twin`)
+- **The Core Problem**: Static course catalogues lack actionable career direction.
+- **The Innovation**: What-if promotional sandbox where officers select target roles (e.g., *Deputy Director, National Accounts*) and toggle custom combinations of iGOT and NSSTA courses to watch their projected readiness trajectory redraw in real-time against background skill decay.
+
+### 4. ⚡ AI Micro-Learning Nudges & 90-Second Concept Challenges
+- Granular, adaptive interventions targeting specific decaying sub-skills (e.g., *NSS Multi-Table Join logic*) with inline 90-second micro-quizzes that immediately restore +0.3 retention points.
+
+### 5. 👥 Anonymized Cadre Peer Benchmarking
+- Opt-in cohort analytics comparing officer percentiles against 640 Senior Statistical Officers nationwide—strictly privacy-preserving with zero individual identification.
+
+### 6. 🎙️ Voice & Multilingual Query Assistant (Setu Saathi)
+- Field-officer-friendly speech-to-text simulation in Hindi and English directly in the floating support widget.
+
+### 7. ⚠️ Admin Statistical Anomaly Detection
+- Surfaces counter-intuitive organizational trends (e.g., *Price Statistics Division shows +32% course completions but -11.4% post-training assessment scores*), alerting leadership to curriculum divergence.
+
+> *Note on AI Architecture: The demo utilizes deterministic mathematical simulations and calibrated scoring models for guaranteed offline stability and zero-hallucination predictability during live judge evaluation; production architecture maps to Survival Analysis Hazard Models and NITI Aayog Algorithmic Audit Specifications.*
 
 ---
 

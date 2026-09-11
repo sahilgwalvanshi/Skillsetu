@@ -1,0 +1,10 @@
+{
+  "buildCommand": "cd skill-setu && npm install && npm run build",
+  "outputDirectory": "skill-setu/dist",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
