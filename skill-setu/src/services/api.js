@@ -1,3 +1,5 @@
+import { mockStore } from './mockDataStore';
+
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://skill-setu-api.onrender.com/api';
 
 const getHeaders = () => {
@@ -19,6 +21,22 @@ const fetchWithRetry = async (url, options = {}, retries = 2, delayMs = 1500) =>
     }
     await new Promise((resolve) => setTimeout(resolve, delayMs));
   }
+};
+
+// Helper for fetch with seamless fallback to mockStore for zero-break demos
+const fetchWithFallback = async (url, options = {}, fallbackFn = null) => {
+  try {
+    const res = await fetchWithRetry(url, options);
+    if (res && res.ok) {
+      return await res.json();
+    }
+  } catch (err) {
+    console.warn(`API call failed for ${url}, using fallback engine:`, err);
+  }
+  if (fallbackFn) {
+    return await fallbackFn();
+  }
+  throw new Error(`Failed request for ${url}`);
 };
 
 export const api = {
