@@ -81,24 +81,6 @@ export default function Nav({ currentUser, currentPath, navigate, onLogout }) {
                 Admin
               </button>
             </li>
-            <li>
-              <button
-                onClick={() => navigate('/learning-hub')}
-                className="text-sm text-amber-400 hover:text-amber-300 transition-colors font-semibold flex items-center space-x-1"
-              >
-                <Code2 className="w-3.5 h-3.5" />
-                <span>Virtual Labs</span>
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => navigate('/career-twin')}
-                className="text-sm text-parchment/80 hover:text-parchment font-medium flex items-center space-x-1"
-              >
-                <Target className="w-3.5 h-3.5 text-sandstone" />
-                <span>Career Twin</span>
-              </button>
-            </li>
           </ul>
         ) : (
           /* Authenticated Logged-In Navigation Links */

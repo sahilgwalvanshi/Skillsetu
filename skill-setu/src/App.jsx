@@ -140,17 +140,25 @@ export default function App() {
 
         {/* Route 9: Official Learning & Capability Hub & Virtual Labs */}
         {(currentPath === '/learning-hub' || currentPath === '/virtual-labs') && (
-          <LearningHub
-            currentUser={currentUser}
-            onNavigateDashboard={() => navigate('/dashboard')}
-          />
+          currentUser ? (
+            <LearningHub
+              currentUser={currentUser}
+              onNavigateDashboard={() => navigate('/dashboard')}
+            />
+          ) : (
+            <LoginPage onLoginSuccess={handleLoginSuccess} />
+          )
         )}
 
         {/* Route 10: Digital Competency Twin - Career Simulation Sandbox */}
         {currentPath === '/career-twin' && (
-          <CareerTwin
-            currentUser={currentUser}
-          />
+          currentUser ? (
+            <CareerTwin
+              currentUser={currentUser}
+            />
+          ) : (
+            <LoginPage onLoginSuccess={handleLoginSuccess} />
+          )
         )}
       </main>
 
