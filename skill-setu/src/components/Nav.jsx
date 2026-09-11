@@ -1,5 +1,5 @@
 import React from 'react';
-import { User, ShieldCheck, Sparkles, LayoutDashboard, LogOut } from 'lucide-react';
+import { User, ShieldCheck, Sparkles, LayoutDashboard, LogOut, Code2, Target } from 'lucide-react';
 
 export default function Nav({ currentUser, currentPath, navigate, onLogout }) {
   const isLanding = currentPath === '/';
@@ -81,6 +81,24 @@ export default function Nav({ currentUser, currentPath, navigate, onLogout }) {
                 Admin
               </button>
             </li>
+            <li>
+              <button
+                onClick={() => navigate('/learning-hub')}
+                className="text-sm text-amber-400 hover:text-amber-300 transition-colors font-semibold flex items-center space-x-1"
+              >
+                <Code2 className="w-3.5 h-3.5" />
+                <span>Virtual Labs</span>
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => navigate('/career-twin')}
+                className="text-sm text-parchment/80 hover:text-parchment font-medium flex items-center space-x-1"
+              >
+                <Target className="w-3.5 h-3.5 text-sandstone" />
+                <span>Career Twin</span>
+              </button>
+            </li>
           </ul>
         ) : (
           /* Authenticated Logged-In Navigation Links */
@@ -98,6 +116,30 @@ export default function Nav({ currentUser, currentPath, navigate, onLogout }) {
                 </button>
               </li>
             )}
+
+            <li>
+              <button
+                onClick={() => navigate('/career-twin')}
+                className={`text-sm font-medium flex items-center space-x-1.5 transition ${
+                  currentPath === '/career-twin' ? 'text-ochre font-bold' : 'text-parchment/80 hover:text-parchment'
+                }`}
+              >
+                <Target className="w-4 h-4 text-amber-400" />
+                <span>Career Twin</span>
+              </button>
+            </li>
+
+            <li>
+              <button
+                onClick={() => navigate('/learning-hub')}
+                className={`text-sm font-medium flex items-center space-x-1.5 transition ${
+                  currentPath === '/learning-hub' ? 'text-ochre font-bold' : 'text-parchment/80 hover:text-parchment'
+                }`}
+              >
+                <Code2 className="w-4 h-4 text-amber-400" />
+                <span>Learning Hub & Labs</span>
+              </button>
+            </li>
 
             {currentUser.role === 'admin' && (
               <li>
