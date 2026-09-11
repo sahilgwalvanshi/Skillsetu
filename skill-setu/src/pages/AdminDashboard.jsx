@@ -7,6 +7,7 @@ import {
   Sparkles, LineChart as LineChartIcon, ArrowUpRight, Zap, Target, Activity, CheckCircle2, ChevronRight
 } from 'lucide-react';
 import { api } from '../services/api';
+import { mockStore } from '../services/mockDataStore';
 import { ADMIN_ANOMALY_FLAG } from '../services/decayEngine';
 
 export default function AdminDashboard() {
@@ -25,10 +26,10 @@ export default function AdminDashboard() {
     setError('');
     try {
       const data = await api.getAdminOverview();
-      setAdminData(data);
+      setAdminData(data || mockStore.getAdminOverview());
     } catch (err) {
-      console.error('Admin dashboard error:', err);
-      setError('Failed to load admin overview stats.');
+      console.warn('Backend unavailable, using client admin store:', err);
+      setAdminData(mockStore.getAdminOverview());
     } finally {
       setLoading(false);
     }

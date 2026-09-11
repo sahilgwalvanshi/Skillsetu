@@ -8,6 +8,7 @@ import {
   Users, Zap, ArrowRight, ShieldCheck, HelpCircle, Activity, ChevronDown, ChevronUp
 } from 'lucide-react';
 import { api } from '../services/api';
+import { mockStore } from '../services/mockDataStore';
 import ChatWidget from '../components/ChatWidget';
 import ExplainableAiModal from '../components/ExplainableAiModal';
 import MicroNudgeModal from '../components/MicroNudgeModal';
@@ -46,11 +47,12 @@ export default function LearnerDashboard({ currentUser, onNavigateAssessment }) 
         api.getSkillGaps(userId),
         api.getRecommendations(userId)
       ]);
-      setGapsData(gaps);
-      setRecommendations(recs);
+      setGapsData(gaps || mockStore.getSkillGaps(userId));
+      setRecommendations(recs || mockStore.getRecommendations(userId));
     } catch (err) {
-      console.error('Learner dashboard fetch error:', err);
-      setError('Failed to load dashboard data. Ensure backend is running.');
+      console.warn('Backend unavailable, using client competency engine:', err);
+      setGapsData(mockStore.getSkillGaps(userId));
+      setRecommendations(mockStore.getRecommendations(userId));
     } finally {
       setLoading(false);
     }

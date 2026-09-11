@@ -1,75 +1,89 @@
 import { mockStore } from './mockDataStore';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://skill-setu-api.onrender.com/api';
+// Normalize API base URL so /api is always present whether user supplied https://domain.com or https://domain.com/api
+function getBaseUrl() {
+  let base = (import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL || 'https://skill-setu-api.onrender.com/api').trim();
+  base = base.replace(/\/+$/, '');
+  if (!base.endsWith('/api')) {
+    base += '/api';
+  }
+  return base;
+}
 
-const getHeaders = () => {
-  const token = localStorage.getItem('skill_setu_token');
+const API_BASE_URL = getBaseUrl();
+
+export const getHeaders = () => {
+  const token = typeof localStorage !== 'undefined' ? localStorage.getItem('skill_setu_token') : null;
   return {
     'Content-Type': 'application/json',
     ...(token ? { Authorization: `Bearer ${token}` } : {})
   };
 };
 
-// Helper for fetch with retries (handles Render free tier cold starts)
-const fetchWithRetry = async (url, options = {}, retries = 2, delayMs = 1500) => {
-  for (let i = 0; i <= retries; i++) {
-    try {
-      const res = await fetch(url, options);
-      if (res.ok || i === retries) return res;
-    } catch (err) {
-      if (i === retries) throw err;
-    }
-    await new Promise((resolve) => setTimeout(resolve, delayMs));
-  }
-};
-
-// Helper for fetch with seamless fallback to mockStore for zero-break demos
-const fetchWithFallback = async (url, options = {}, fallbackFn = null) => {
+/**
+ * Robust fetch with fast timeout and seamless mockStore fallback.
+ * Exported to ensure proper module scoping across all bundlers and Vite builds.
+ */
+export async function fetchWithFallback(url, options, fallbackFn) {
   try {
-    const res = await fetchWithRetry(url, options);
-    if (res && res.ok) {
-      return await res.json();
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2000);
+
+    const res = await fetch(url, {
+      ...options,
+      signal: controller.signal
+    });
+    clearTimeout(timeoutId);
+
+    if (res.ok) {
+      const data = await res.json();
+      // If backend returned valid payload with actual skills
+      if (data && (!Array.isArray(data.skills) || data.skills.length > 0)) {
+        return data;
+      }
     }
   } catch (err) {
-    console.warn(`API call failed for ${url}, using fallback engine:`, err);
+    // Network error, timeout, or mixed content -> use client mockStore
   }
-  if (fallbackFn) {
-    return await fallbackFn();
+
+  // Safe client-side fallback
+  if (typeof fallbackFn === 'function') {
+    try {
+      return await fallbackFn();
+    } catch (e) {
+      console.warn('Fallback error, using default mock:', e);
+    }
   }
-  throw new Error(`Failed request for ${url}`);
-};
+  return null;
+}
 
 export const api = {
   // Auth
   login: async (name, role, email) => {
     try {
-      const res = await fetchWithRetry(`${API_BASE_URL}/auth/login`, {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 2000);
+
+      const res = await fetch(`${API_BASE_URL}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, role, email })
+        body: JSON.stringify({ name, role, email }),
+        signal: controller.signal
       });
-      if (!res.ok) throw new Error('Login failed');
-      const data = await res.json();
-      if (data.token) {
-        localStorage.setItem('skill_setu_token', data.token);
-        localStorage.setItem('skill_setu_user', JSON.stringify(data.user));
+      clearTimeout(timeoutId);
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data.token) {
+          localStorage.setItem('skill_setu_token', data.token);
+          localStorage.setItem('skill_setu_user', JSON.stringify(data.user));
+          return data;
+        }
       }
-      return data;
-    } catch (err) {
-      console.warn('Backend login fallback active:', err);
-      // Client-side seamless fallback for demo resilience
-      const mockUser = {
-        id: 'demo_' + Date.now(),
-        name: name || 'Rajesh Sharma',
-        role: role || 'officer',
-        email: email || `${(name || 'user').toLowerCase().replace(/\s+/g, '.')}@mospi.gov.in`,
-        onboardingComplete: false
-      };
-      const mockToken = 'mock_demo_jwt_token_' + Date.now();
-      localStorage.setItem('skill_setu_token', mockToken);
-      localStorage.setItem('skill_setu_user', JSON.stringify(mockUser));
-      return { user: mockUser, token: mockToken };
-    }
+    } catch (err) {}
+
+    const fallbackData = mockStore.login(name, role, email);
+    return fallbackData;
   },
 
   getCurrentUser: async () => {
@@ -81,8 +95,10 @@ export const api = {
   },
 
   logout: () => {
-    localStorage.removeItem('skill_setu_token');
-    localStorage.removeItem('skill_setu_user');
+    if (typeof localStorage !== 'undefined') {
+      localStorage.removeItem('skill_setu_token');
+      localStorage.removeItem('skill_setu_user');
+    }
   },
 
   // Profile
@@ -116,10 +132,10 @@ export const api = {
       },
       () => mockStore.completeOnboarding(userId)
     );
-    if (result?.user) {
+    if (result?.user && typeof localStorage !== 'undefined') {
       localStorage.setItem('skill_setu_user', JSON.stringify(result.user));
     }
-    return result;
+    return result || { success: true };
   },
 
   // Skills & Assessment
@@ -198,7 +214,7 @@ export const api = {
     try {
       const formData = new FormData();
       formData.append('file', file);
-      const token = localStorage.getItem('skill_setu_token');
+      const token = typeof localStorage !== 'undefined' ? localStorage.getItem('skill_setu_token') : null;
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 3000);
 
