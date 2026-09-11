@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { User, ShieldCheck, ArrowRight, CheckCircle, FileText, Sparkles, Building2, Briefcase, Award, GraduationCap, Play } from 'lucide-react';
 import { api } from '../services/api';
+import { mockStore } from '../services/mockDataStore';
 
 export default function LoginPage({ onLoginSuccess }) {
   const [selectedRole, setSelectedRole] = useState('officer');
@@ -101,8 +102,12 @@ export default function LoginPage({ onLoginSuccess }) {
 
       onLoginSuccess(res.user);
     } catch (err) {
-      console.error('Login error:', err);
-      setError('Login failed. Please ensure the backend server is running.');
+      console.warn('Backend unavailable, proceeding with client-side demo account:', err);
+      const fallback = mockStore.login(loginName, loginRole);
+      if (loginRole === 'officer' && startOnboarding) {
+        fallback.user.onboardingComplete = false;
+      }
+      onLoginSuccess(fallback.user);
     } finally {
       setLoading(false);
     }
